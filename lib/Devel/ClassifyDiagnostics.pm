@@ -1,4 +1,4 @@
-package Devel::ClassifyWarnings;
+package Devel::ClassifyDiagnostics;
 use strict;
 use warnings FATAL => 'all';
 
@@ -10,11 +10,11 @@ __END__
 
 =head1 NAME
 
-Devel::ClassifyWarnings - New module
+Devel::ClassifyDiagnostics - Classify perl diagnostic messages
 
 =head1 SYNOPSIS
 
-  use Devel::ClassifyWarnings;
+  use Devel::ClassifyDiagnostics;
 
 =head1 DESCRIPTION
 
@@ -30,7 +30,7 @@ None yet.
 
 =head1 COPYRIGHT
 
-Copyright (c) 2014 the Devel::ClassifyWarnings L</AUTHOR> and L</CONTRIBUTORS>
+Copyright (c) 2014 the Devel::ClassifyDiagnostics L</AUTHOR> and L</CONTRIBUTORS>
 as listed above.
 
 =head1 LICENSE

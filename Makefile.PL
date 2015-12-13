@@ -2,7 +2,7 @@ use strict;
 use warnings FATAL => 'all';
 
 my %META = (
-  name => 'Devel::ClassifyWarnings',
+  name => 'Devel::ClassifyDiagnostics',
   license => 'perl_5',
   prereqs => {
     configure => { requires => {
@@ -21,13 +21,13 @@ my %META = (
   },
   resources => {
     repository => {
-      url => 'git://github.com/haarg/Devel-ClassifyWarnings',
-      web => 'https://github.com/haarg/Devel-ClassifyWarnings',
+      url => 'git://github.com/haarg/Devel-ClassifyDiagnostics',
+      web => 'https://github.com/haarg/Devel-ClassifyDiagnostics',
       type => 'git',
     },
     bugtracker => {
-      web => 'https://rt.cpan.org/Public/Dist/Display.html?Name=Devel-ClassifyWarnings',
-      mailto => 'bug-Devel-ClassifyWarnings@rt.cpan.org',
+      web => 'https://rt.cpan.org/Public/Dist/Display.html?Name=Devel-ClassifyDiagnostics',
+      mailto => 'bug-Devel-ClassifyDiagnostics@rt.cpan.org',
     },
     license => [ 'http://dev.perl.org/licenses/' ],
   },
