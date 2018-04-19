@@ -1,6 +1,6 @@
 package Devel::ClassifyDiagnostics;
 use strict;
-use warnings FATAL => 'all';
+use warnings;
 
 our $VERSION = '0.001000';
 $VERSION = eval $VERSION;
@@ -22,7 +22,7 @@ my %E_codes = (
 );
 sub _pod_to_text {
   my $pod = shift;
-  my @parts = split /([IBCFSZLE])(?:<<<<\s+(.*?)\s+>>>>|<<<\s+(.*?)\s+>>>|<<\s+(.*?)\s+>>|<(.*?)>)/, $pod;
+  my @parts = split /([IBCFSZLE])(?:<<<<\s+(.*?)\s+>>>>|<<<\s+(.*?)\s+>>>|<<\s+(.*?)\s+>>|<(.*?)>)/s, $pod;
   my $out = '';
   while (@parts) {
     $out .= shift @parts;
@@ -38,7 +38,7 @@ sub _pod_to_text {
         next;
       }
       elsif ($code eq 'L') {
-        my ($t, $l, $s) = $text =~ m{^(?:(.*?)\|)?(\w+:.*|.*?)(?:/(.*?))?$};
+        my ($t, $l, $s) = $text =~ m{^(?:(.*?)\|)?(\w+:.*|.*?)(?:/(.*?))?$}s;
         ($text) = grep defined, $t, $s, $l;
       }
       elsif ($code eq 'X') {
@@ -73,6 +73,7 @@ sub read_perldiag {
   };
   s/\r\n?/\n/g;
 
+  my $over_level = 0;
   my @headers;
   while (1) {
     if ( m/\G^=(\w+)(.*\n(?:.+\n)*)/mgc ) {
@@ -81,7 +82,16 @@ sub read_perldiag {
         m/^=end\b(.*\n(?:.+\n)*)/gcm
           or last;
       }
-      elsif ($directive eq 'item') {
+      elsif ($directive eq 'over') {
+        $over_level++;
+      }
+      elsif ($directive eq 'back') {
+        $over_level--;
+        if ($over_level == 0) {
+          @headers = ();
+        }
+      }
+      elsif ($over_level == 1 && $directive eq 'item') {
         my $header = _pod_to_text($text);
         $header =~ s/^\s+//;
         $header =~ s/\s*$//;
@@ -107,7 +117,7 @@ sub read_perldiag {
         @headers = ();
       }
     }
-    elsif ( m/\G(.+?)(?=^=|\z)/gcms) {
+    elsif ( m/\G(.+?)(?=^=|\z)/gcms ) {
       my $pod = $1;
       my @messages = @headers
         or next;
